@@ -37,5 +37,7 @@ test('Verify if the upload functionality is working as expected', async ({ page 
   await page.getByText('eastern').click();
   await page.locator("//div[@class='custom_upload']//child::input").setInputFiles('LegalFiles/BKR.xls');
   await page.getByRole('button', { name: 'Upload', exact: true }).click();
+  await expect.soft(page.getByText('File uploaded successfully')).toBeVisible();
+  await expect(page.getByRole('main')).toContainText('BKR.xls');
 });
 
