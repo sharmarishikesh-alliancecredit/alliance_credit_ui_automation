@@ -2,9 +2,12 @@ import { test, expect } from '@playwright/test';
 
 const url: string = 'http://localhost:5173/';
 
-test('Verify if main table in legal-search section is visible', async ({ page }) => {
+test.beforeEach(async ({ page }) => {
   await page.goto(url);
   await page.getByText('Login As Admin').click();
+});
+
+test('Verify if main table in legal-search section is visible', async ({ page }) => {
   await expect(page.locator('div').filter({ hasText: 'File Ref. IdFileFile' }).nth(4)).toBeVisible();
 });
 
@@ -17,8 +20,6 @@ test('Verify if the legal search button is clickable and redirects to search pag
 });
 
 test('Verify if the search functionality is working as expected', async ({ page }) => {
-  await page.goto(url);
-  await page.getByText('Login As Admin').click();
   await page.getByPlaceholder('Search Legal File').click();
   await page.getByPlaceholder('Search Legal File').fill('jlr');
   await page.getByText('jlr', { exact: true }).first().click();
@@ -29,8 +30,6 @@ test('Verify if the search functionality is working as expected', async ({ page 
 });
 
 test('Verify if the upload functionality is working as expected', async ({ page }) => {
-  await page.goto(url);
-  await page.getByText('Login As Admin').click();
   await page.getByRole('button', { name: 'Upload Legal' }).click();
   await page.getByRole('textbox', { name: 'Legal Type' }).click();
   await page.getByText('bkr_select').click();
